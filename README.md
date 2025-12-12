@@ -33,4 +33,32 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Google Drive Gallery Integration
+
+The photo gallery is powered by the Google Drive API.
+
+### Setup Instructions
+
+1.  **Google Service Account (Recommended for Production)**:
+    -   Create a Service Account in Google Cloud Console.
+    -   Generate a JSON key and save it in your project root (e.g., `service-account.json`).
+    -   Set `GOOGLE_SERVICE_ACCOUNT_JSON=service-account.json`. (Or paste the content string).
+    -   **Important**: Share your Drive folder (`158Ho4qRVDavLPw2YVLjkr2qmyP0DQarf`) with the Service Account email address.
+
+2.  **API Key (Alternative)**:
+    -   Set `GOOGLE_DRIVE_API_KEY` in `.env.local`.
+    -   Note: This method might hit limits faster.
+
+3.  **Folder ID**:
+    -   Set `DRIVE_FOLDER_ID` in `.env.local` if you want to change the default folder.
+
+### Environment Variables
+```env
+GOOGLE_SERVICE_ACCOUNT_JSON="./service-credentials.json"
+DRIVE_FOLDER_ID="158Ho4qRVDavLPw2YVLjkr2qmyP0DQarf"
+```
+
+### Manual Refresh
+Because the API result is cached for 1 hour, you can trigger a refresh by visiting:
+`/api/drive-images?refresh=true` (Requires implementation of manual revalidation).

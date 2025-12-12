@@ -1,0 +1,22 @@
+ACTION REQUIRED: Fix Billing Account Status
+
+The deployment to Firebase Hosting (and Google Cloud) failed because the Billing Account linked to project 'peniel-auto-7392' is in a 'Delinquent' state (e.g. payment failed or card expired).
+
+This prevents:
+1. Creating Storage Buckets (required for uploading your code).
+2. Using Cloud Build (required for containerizing your app).
+3. Using Cloud Functions (required for Next.js Server Side Rendering).
+
+EXECUTE THESE STEPS:
+1. Go to the Google Cloud Console Billing section:
+   https://console.cloud.google.com/billing
+
+2. Select the billing account "01476F-DCFAA4-0428DF" (or the one linked to 'peniel-auto-7392').
+
+3. Resolving the payment issue (Update payment method or pay outstanding balance).
+   The status must be "Active", not "Delinquent" or "Closed".
+
+4. Once fixed, run the deployment command again from your project root:
+   firebase deploy --project peniel-auto-7392
+
+Note: You do NOT need to run any other setup commands; the project is configured correctly, but purely blocked by payment status.
