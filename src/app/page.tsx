@@ -8,6 +8,7 @@ import GetInvolved from "@/sections/GetInvolved";
 import Announcements from "@/sections/Announcements";
 import GallerySection from "@/sections/GallerySection";
 import GivingSection from "@/sections/GivingSection";
+import FAQ from "@/sections/FAQ";
 import Footer from "@/components/ui/Footer";
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
       <Announcements />
       <GallerySection />
       <GivingSection />
+      <FAQ />
       <Banner />
       <Footer />
     </main>

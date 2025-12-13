@@ -9,6 +9,7 @@ import { collection, onSnapshot, doc, addDoc, updateDoc, deleteDoc, query, order
 import { db } from "@/lib/firebase";
 import { Plus, Trash2, Edit2, LayoutGrid, Loader2 } from "lucide-react";
 import { Reorder } from "framer-motion";
+import ServiceListEditor from "./ServiceListEditor";
 
 export default function BentoEditor() {
     const [cards, setCards] = useState<any[]>([]);
@@ -183,67 +184,10 @@ export default function BentoEditor() {
                     </div>
 
                     {formData.type === 'service_list' ? (
-                        <div className="space-y-4 bg-white/5 p-4 rounded-xl border border-white/10">
-                            <h4 className="font-medium text-church-gold">Service Timings</h4>
-
-                            <div className="grid grid-cols-2 gap-2">
-                                <input
-                                    id="new-service-name"
-                                    placeholder="Service Name (e.g. Sunday Worship)"
-                                    className="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white"
-                                />
-                                <div className="flex gap-2">
-                                    <input
-                                        id="new-service-time"
-                                        placeholder="Time (e.g. 10:00 AM)"
-                                        className="bg-black/20 border border-white/10 rounded-lg px-3 py-2 text-sm text-white flex-1"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            const nameInput = document.getElementById('new-service-name') as HTMLInputElement;
-                                            const timeInput = document.getElementById('new-service-time') as HTMLInputElement;
-                                            if (nameInput.value && timeInput.value) {
-                                                setFormData({
-                                                    ...formData,
-                                                    services: [...formData.services, { name: nameInput.value, time: timeInput.value }]
-                                                });
-                                                nameInput.value = "";
-                                                timeInput.value = "";
-                                            }
-                                        }}
-                                        className="bg-church-gold text-black p-2 rounded-lg hover:bg-yellow-400"
-                                    >
-                                        <Plus size={16} />
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="space-y-2 mt-2">
-                                {formData.services.length === 0 && <p className="text-xs text-white/40 italic">No services added.</p>}
-                                <Reorder.Group axis="y" values={formData.services} onReorder={(newOrder) => setFormData({ ...formData, services: newOrder })}>
-                                    {formData.services.map((svc, idx) => (
-                                        <Reorder.Item key={idx} value={svc} className="flex items-center justify-between p-2 bg-white/5 rounded border border-white/5 mb-2 cursor-grab active:cursor-grabbing">
-                                            <div className="flex-1">
-                                                <p className="font-medium text-white text-sm">{svc.name}</p>
-                                                <p className="text-xs text-white/50">{svc.time}</p>
-                                            </div>
-                                            <button
-                                                type="button"
-                                                onClick={() => {
-                                                    const newSvcs = [...formData.services];
-                                                    newSvcs.splice(idx, 1);
-                                                    setFormData({ ...formData, services: newSvcs });
-                                                }}
-                                                className="text-red-400 hover:text-red-300 p-1"
-                                            >
-                                                <Trash2 size={14} />
-                                            </button>
-                                        </Reorder.Item>
-                                    ))}
-                                </Reorder.Group>
-                            </div>
-                        </div>
+                        <ServiceListEditor
+                            services={formData.services}
+                            onChange={(newServices) => setFormData({ ...formData, services: newServices })}
+                        />
                     ) : (
                         <ImageUpload
                             directory="bento"
