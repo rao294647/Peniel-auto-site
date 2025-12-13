@@ -11,7 +11,8 @@ import {
     Megaphone,
     Settings,
     LogOut,
-    Flag
+    Flag,
+    Heart
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
     { label: "Hero Editor", href: "/admin/hero", icon: ImageIcon },
     { label: "Bento Grid", href: "/admin/bento", icon: LayoutGrid },
     { label: "Announcements", href: "/admin/announcements", icon: Megaphone },
+    { label: "Donations", href: "/admin/donations", icon: Heart },
     { label: "Gallery", href: "/admin/gallery", icon: ImageIcon }, // Reusing Image icon or can use different one
     { label: "Banner", href: "/admin/banner", icon: Flag },
 ];
