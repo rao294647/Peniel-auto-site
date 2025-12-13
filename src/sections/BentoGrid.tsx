@@ -136,28 +136,45 @@ export default function BentoGrid() {
                         </div>
                     </DashboardCard>
 
-                    {/* 4. Schedule Card [Span 2, Row 2] */}
-                    <DashboardCard className="md:col-span-2 md:row-span-2 bg-[#1a1a1a] !border-none" delay={0.3}>
-                        <div className="p-8 h-full flex flex-col">
-                            <h3 className="text-xl font-bold text-white mb-2">Find your best time to join with us</h3>
-                            <p className="text-gray-400 text-xs mb-6">Every week we gather for various ways of praising</p>
+                    {/* 4. Schedule/Service Card [Span 2, Row 2] */}
+                    {(() => {
+                        const serviceCard = cards.find(c => c.type === 'service_list') || getCard(3); // Try to find explicitly typed card, else fallback
+                        const isServiceList = serviceCard.type === 'service_list' || (serviceCard.services && serviceCard.services.length > 0);
 
-                            <div className="flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
-                                {[
-                                    { txt: "Wake Up Hyd Pastors Prayer: Every Monday @ 5:00AM" },
-                                    { txt: "Tuesday: Men's Meeting @ 07:00 PM (1st Tuesday Of The Month)" },
-                                    { txt: "Wednesday: Bible Study @ 07:00-09:00 PM" }, // & Thursday
-                                    { txt: "Friday: Women's Meeting @ 12:30 PM & Whole Night Prayer @ 08:30 PM" },
-                                    { txt: "Friday Mid-Week Service: Worship Service @ 7:00 PM" },
-                                    { txt: "Saturday; Prayer Walk @ 05:00 AM (Every Month 1st Saturday)" }
-                                ].map((item, i) => (
-                                    <div key={i} className="px-4 py-3 rounded-full border border-white/10 bg-white/5 text-[10px] md:text-xs text-gray-300 hover:bg-white/10 hover:border-white/20 transition-colors cursor-default whitespace-normal">
-                                        {item.txt}
+                        return (
+                            <DashboardCard className="md:col-span-2 md:row-span-2 bg-[#1a1a1a] !border-none" delay={0.3}>
+                                <div className="p-8 h-full flex flex-col">
+                                    <h3 className="text-xl font-bold text-white mb-2">{serviceCard.title || "Find your best time to join with us"}</h3>
+                                    <p className="text-gray-400 text-xs mb-6">Every week we gather for various ways of praising</p>
+
+                                    <div className="flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar">
+                                        {isServiceList && serviceCard.services ? (
+                                            serviceCard.services.map((svc: any, i: number) => (
+                                                <div key={i} className="px-4 py-3 rounded-full border border-white/10 bg-white/5 text-[10px] md:text-xs text-gray-300 hover:bg-white/10 hover:border-white/20 transition-colors cursor-default whitespace-normal flex justify-between gap-2">
+                                                    <span className="font-semibold text-white/90">{svc.name}</span>
+                                                    <span className="text-church-gold/90 shrink-0">{svc.time}</span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            // Fallback for when no data is set yet
+                                            [
+                                                { txt: "Wake Up Hyd Pastors Prayer: Every Monday @ 5:00AM" },
+                                                { txt: "Tuesday: Men's Meeting @ 07:00 PM (1st Tuesday Of The Month)" },
+                                                { txt: "Wednesday: Bible Study @ 07:00-09:00 PM" },
+                                                { txt: "Friday: Women's Meeting @ 12:30 PM & Whole Night Prayer @ 08:30 PM" },
+                                                { txt: "Friday Mid-Week Service: Worship Service @ 7:00 PM" },
+                                                { txt: "Saturday; Prayer Walk @ 05:00 AM (Every Month 1st Saturday)" }
+                                            ].map((item, i) => (
+                                                <div key={i} className="px-4 py-3 rounded-full border border-white/10 bg-white/5 text-[10px] md:text-xs text-gray-300 hover:bg-white/10 hover:border-white/20 transition-colors cursor-default whitespace-normal">
+                                                    {item.txt}
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
-                                ))}
-                            </div>
-                        </div>
-                    </DashboardCard>
+                                </div>
+                            </DashboardCard>
+                        );
+                    })()}
 
                     {/* 5. Side Image [Span 1, Row 2] */}
                     <DashboardCard className="md:col-span-1 md:row-span-2" href={getCard(4).link} delay={0.4}>
