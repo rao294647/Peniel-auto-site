@@ -7,6 +7,7 @@ import Lightbox from '@/components/gallery/Lightbox';
 import { collection, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { fadeIn } from '@/components/motion/variants';
+import { cn } from '@/lib/utils';
 
 interface GalleryItem {
     id: string;
@@ -32,11 +33,11 @@ export default function GallerySection() {
     useEffect(() => {
         async function fetchGallery() {
             try {
-                const galleryRef = collection(db, 'site', 'gallery');
+                const galleryRef = collection(db, 'site/gallery/items');
                 const q = query(
                     galleryRef,
                     where("published", "==", true),
-                    orderBy("uploadedAt", "desc"),
+                    orderBy("createdAt", "desc"),
                     limit(50)
                 );
 
@@ -66,35 +67,33 @@ export default function GallerySection() {
     // If loaded and empty, show placeholders.
     const displayImages = (!loading && images.length === 0) ? placeholders : images;
 
+    // Pattern Logic: Returns class names for Grid Spans
+    const getItemSpan = (index: number) => {
+        // We define a repeating pattern of 6 items
+        const i = index % 6;
+        if (i === 0) return "md:col-span-2 md:row-span-2"; // Big Square
+        if (i === 1) return "md:col-span-1 md:row-span-1"; // Small
+        if (i === 2) return "md:col-span-1 md:row-span-2"; // Tall
+        if (i === 3) return "md:col-span-1 md:row-span-1"; // Small
+        if (i === 4) return "md:col-span-2 md:row-span-1"; // Wide
+        return "md:col-span-1 md:row-span-1";              // Small
+    };
+
     return (
         <section className="relative w-full py-24 px-4 bg-[#050505]" id="gallery">
             <div className="container mx-auto max-w-7xl">
 
-                {/* Header */}
-                <motion.div
-                    variants={fadeIn("up", 0.1)}
-                    initial="hidden"
-                    whileInView="show"
-                    viewport={{ once: true }}
-                    className="text-center mb-12"
-                >
-                    <h2 className="text-4xl md:text-5xl font-serif text-white mb-4">
-                        Our <span className="text-church-gold italic">Gallery</span>
-                    </h2>
-                    <p className="text-gray-400 font-light max-w-2xl mx-auto">
-                        Capturing moments of faith, community, and joy at Peniel Church.
-                    </p>
-                </motion.div>
 
-                {/* Masonry Grid */}
+
+                {/* Grid Layout */}
                 {loading ? (
-                    <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3 animate-pulse">
+                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4 animate-pulse">
                         {[...Array(8)].map((_, i) => (
-                            <div key={i} className="break-inside-avoid w-full bg-white/5 rounded-xl aspect-[4/5]" />
+                            <div key={i} className={cn("bg-white/5 rounded-2xl", getItemSpan(i))} />
                         ))}
                     </div>
                 ) : (
-                    <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
+                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4 grid-flow-dense">
                         {displayImages.map((img, idx) => (
                             <motion.div
                                 key={img.id}
@@ -102,15 +101,17 @@ export default function GallerySection() {
                                 initial="hidden"
                                 whileInView="show"
                                 viewport={{ once: true, margin: "50px" }}
-                                className="break-inside-avoid relative group rounded-xl overflow-hidden cursor-zoom-in border border-white/5 bg-gray-900 shadow-lg"
+                                className={cn(
+                                    "relative group rounded-2xl overflow-hidden cursor-zoom-in border border-white/5 bg-gray-900 shadow-lg",
+                                    getItemSpan(idx)
+                                )}
                                 onClick={() => setLightboxIndex(idx)}
                             >
                                 <Image
                                     src={img.thumbnailLink}
                                     alt={img.name || 'Gallery Image'}
-                                    width={600}
-                                    height={800}
-                                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
                                 />
 
