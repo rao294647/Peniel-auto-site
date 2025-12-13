@@ -55,21 +55,17 @@ export default function About() {
                     </motion.div>
 
                     {/* Mission & Vision */}
-                    <div className="grid md:grid-cols-1 gap-12 max-w-4xl mx-auto text-center">
+                    <div className="grid md:grid-cols-1 gap-8 max-w-4xl mx-auto text-center md:text-left">
                         <motion.div variants={fadeInUp} className="space-y-4">
-                            <h3 className="text-2xl md:text-3xl font-serif">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 font-semibold">Our Mission:</span>
-                            </h3>
                             <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed">
+                                <span className="text-[#6366f1] font-medium text-2xl mr-2">Our Mission:</span>
                                 At Peniel Church, our mission is to lead individuals to a profound encounter with God. We strive to transform lives through the power of the Gospel, nurturing a community where faith flourishes and lives are positively impacted.
                             </p>
                         </motion.div>
 
                         <motion.div variants={fadeInUp} className="space-y-4">
-                            <h3 className="text-2xl md:text-3xl font-serif">
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 font-semibold">Our Vision:</span>
-                            </h3>
                             <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed">
+                                <span className="text-[#6366f1] font-medium text-2xl mr-2">Our Vision:</span>
                                 We envision a church where every member is empowered to make a difference. Through education, spiritual empowerment, and community engagement, we are building a fellowship that is vibrant, caring, and ready to serve.
                             </p>
                         </motion.div>
