@@ -21,10 +21,19 @@ export default function LoginPage() {
 
         try {
             // Map username to email logic
-            let loginEmail = email;
-            if (!email.includes("@")) {
-                if (email === "9000012512") loginEmail = "admin@peniel.church";
-                if (email === "Peniel Team") loginEmail = "manager@peniel.church";
+            const rawInput = email.trim();
+            let loginEmail = rawInput;
+
+            if (!rawInput.includes("@")) {
+                if (rawInput === "9000012512") loginEmail = "admin@peniel.church";
+                else if (rawInput.toLowerCase() === "peniel team") loginEmail = "manager@peniel.church";
+                // Fallback for user convenience if they type 'admin'
+                else if (rawInput.toLowerCase() === "admin") loginEmail = "admin@peniel.church";
+
+                // If still no '@', it's definitely invalid for Firebase
+                if (!loginEmail.includes("@")) {
+                    throw { code: "custom/invalid-format", message: "Please enter a valid Email Address or registered Username (e.g., 9000012512)" };
+                }
             }
 
             try {
