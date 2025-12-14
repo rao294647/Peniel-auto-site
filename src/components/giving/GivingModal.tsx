@@ -85,7 +85,7 @@ export default function GivingModal({ isOpen, onClose }: GivingModalProps) {
             const screenshotUrl = await uploadToImgBB(proofFile);
 
             // 2. Save to Firestore
-            await addDoc(collection(db, 'site', 'giving-submissions'), {
+            await addDoc(collection(db, 'site/giving/submissions'), {
                 ...formData,
                 screenshotUrl,
                 submittedAt: serverTimestamp(),

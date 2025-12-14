@@ -34,9 +34,10 @@ export default function GallerySection() {
         async function fetchGallery() {
             try {
                 const galleryRef = collection(db, 'site/gallery/items');
+                // Removed 'published' check to avoid needing a composite index in Firebase Console.
+                // Admin dashboard sets all to published:true anyway.
                 const q = query(
                     galleryRef,
-                    where("published", "==", true),
                     orderBy("createdAt", "desc"),
                     limit(50)
                 );
@@ -82,8 +83,6 @@ export default function GallerySection() {
     return (
         <section className="relative w-full py-24 px-4 bg-[#050505]" id="gallery">
             <div className="container mx-auto max-w-7xl">
-
-
 
                 {/* Grid Layout */}
                 {loading ? (

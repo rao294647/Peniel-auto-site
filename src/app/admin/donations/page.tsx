@@ -25,7 +25,7 @@ export default function DonationsPage() {
 
     useEffect(() => {
         const q = query(
-            collection(db, "site/giving-submissions"), // Note: Collection path from GivingModal.tsx
+            collection(db, "site/giving/submissions"), // Corrected path (odd segments)
             orderBy("submittedAt", "desc")
         );
 
@@ -44,7 +44,7 @@ export default function DonationsPage() {
     const handleDelete = async (id: string, e: React.MouseEvent) => {
         e.stopPropagation();
         if (confirm("Are you sure you want to delete this record?")) {
-            await deleteDoc(doc(db, "site/giving-submissions", id));
+            await deleteDoc(doc(db, "site/giving/submissions", id));
         }
     };
 
